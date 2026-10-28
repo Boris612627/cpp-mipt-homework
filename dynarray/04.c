@@ -1,0 +1,22 @@
+#include <stdio.h>
+
+int main()
+{
+#ifdef COUNT
+    #if COUNT > 100
+        printf("Count is too large!\n");
+    #else
+        #ifdef REVERSE
+            for (int i = COUNT; i >= 1; --i)
+                printf("%i ", i);
+        #else
+            for (int i = 1; i <= COUNT; ++i)
+                printf("%i ", i);
+        #endif
+        printf("\n");
+    #endif
+#else
+    printf("No count!\n");
+#endif
+    return 0;
+}
