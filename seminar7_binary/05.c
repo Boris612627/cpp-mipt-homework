@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+void save_numbers_text(const char* filename, double* array, int n) {
+    FILE* f = fopen(filename, "w");
+    if (f == NULL) return;
+    
+    fprintf(f, "%d\n", n);
+    for (int i = 0; i < n; i++) {
+        fprintf(f, "%.15f\n", array[i]);
+    }
+    
+    fclose(f);
+}
+
+void save_numbers_binary(const char* filename, double* array, int n) {
+    FILE* f = fopen(filename, "wb");
+    if (f == NULL) return;
+    
+    fwrite(&n, sizeof(int), 1, f);
+    fwrite(array, sizeof(double), n, f);
+    
+    fclose(f);
+}
+
+int main() {
+    int n = 1000;
+    double* array = (double*)malloc(n * sizeof(double));
+
+    for (int i = 0; i < n; ++i) {
+        array[i] = sin(M_PI * i / n);
+    }
+
+    save_numbers_text("numbers.txt", array, n);
+    save_numbers_binary("numbers.bin", array, n);
+
+    free(array);
+    return 0;
+}
